@@ -30,7 +30,7 @@ const PaginationRoot = styled('nav', {
 
     return [styles.root, styles[ownerState.variant]];
   },
-})({});
+})();
 
 const PaginationUl = styled('ul', {
   name: 'MuiPagination',

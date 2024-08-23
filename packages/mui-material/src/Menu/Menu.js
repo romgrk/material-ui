@@ -41,7 +41,7 @@ const MenuRoot = styled(Popover, {
   name: 'MuiMenu',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 
 export const MenuPaper = styled(PopoverPaper, {
   name: 'MuiMenu',

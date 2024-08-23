@@ -40,7 +40,7 @@ const AutocompleteOptionRoot = styled(StyledAutocompleteOption, {
   name: 'JoyAutocompleteOption',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 /**
  *
  * Demos:

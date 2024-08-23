@@ -74,7 +74,7 @@ export const PopoverRoot = styled(Modal, {
   name: 'MuiPopover',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 
 export const PopoverPaper = styled(PaperBase, {
   name: 'MuiPopover',

@@ -97,7 +97,7 @@ const NativeSelectSelect = styled(StyledSelectSelect, {
       { [`&.${nativeSelectClasses.multiple}`]: styles.multiple },
     ];
   },
-})({});
+})();
 
 export const StyledSelectIcon = styled('svg')(({ theme }) => ({
   // We use a position absolute over a flexbox in order to forward the pointer events
@@ -149,7 +149,7 @@ const NativeSelectIcon = styled(StyledSelectIcon, {
       ownerState.open && styles.iconOpen,
     ];
   },
-})({});
+})();
 
 /**
  * @ignore - internal component.

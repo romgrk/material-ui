@@ -31,7 +31,7 @@ const BreadcrumbsRoot = styled(Typography, {
   overridesResolver: (props, styles) => {
     return [{ [`& .${breadcrumbsClasses.li}`]: styles.li }, styles.root];
   },
-})({});
+})();
 
 const BreadcrumbsOl = styled('ol', {
   name: 'MuiBreadcrumbs',

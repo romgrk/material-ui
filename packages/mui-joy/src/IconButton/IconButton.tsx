@@ -113,7 +113,7 @@ export const IconButtonRoot = styled(StyledIconButton, {
   name: 'JoyIconButton',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 
 const ButtonLoading = styled('span', {
   name: 'JoyIconButton',

@@ -44,7 +44,7 @@ const PopperRoot = styled(BasePopper, {
   name: 'MuiPopper',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 
 /**
  *

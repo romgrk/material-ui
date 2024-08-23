@@ -105,7 +105,7 @@ const TablePaginationMenuItem = styled(MenuItem, {
   name: 'MuiTablePagination',
   slot: 'MenuItem',
   overridesResolver: (props, styles) => styles.menuItem,
-})({});
+})();
 
 const TablePaginationDisplayedRows = styled('p', {
   name: 'MuiTablePagination',

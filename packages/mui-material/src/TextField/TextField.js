@@ -37,7 +37,7 @@ const TextFieldRoot = styled(FormControl, {
   name: 'MuiTextField',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 
 /**
  * The `TextField` is a convenience wrapper for the most common cases (80%).

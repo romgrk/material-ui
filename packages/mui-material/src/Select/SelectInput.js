@@ -53,7 +53,7 @@ const SelectIcon = styled(StyledSelectIcon, {
       ownerState.open && styles.iconOpen,
     ];
   },
-})({});
+})();
 
 const SelectNativeInput = styled('input', {
   shouldForwardProp: (prop) => slotShouldForwardProp(prop) && prop !== 'classes',

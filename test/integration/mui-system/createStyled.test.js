@@ -38,7 +38,7 @@ describe('createStyled', () => {
       const styled = createStyled({});
       const SomeMuiComponent = styled(function SomeMuiComponent() {
         return null;
-      })({});
+      })();
 
       expect(SomeMuiComponent).to.have.property('displayName', 'Styled(SomeMuiComponent)');
     });
@@ -185,12 +185,12 @@ describe('createStyled', () => {
         styles.root,
         { [`& .MuiButton-avatar`]: styles.avatar },
       ],
-    })({});
+    })();
     const ButtonIcon = styled('span', {
       name: 'MuiButton',
       slot: 'Icon',
       overridesResolver: (props, styles) => styles.icon,
-    })({});
+    })();
     function Button({ children, startIcon, endIcon, color = 'primary', ...props }) {
       const ownerState = { startIcon, endIcon, color, ...props };
       return (

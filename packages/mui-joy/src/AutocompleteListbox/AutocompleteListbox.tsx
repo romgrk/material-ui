@@ -85,7 +85,7 @@ const AutocompleteListboxRoot = styled(StyledAutocompleteListbox, {
   name: 'JoyAutocompleteListbox',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 /**
  *
  * Demos:

@@ -132,7 +132,7 @@ const InputInput = styled(InputBaseInput, {
   name: 'MuiInput',
   slot: 'Input',
   overridesResolver: inputBaseInputOverridesResolver,
-})({});
+})();
 
 const Input = React.forwardRef(function Input(inProps, ref) {
   const props = useDefaultProps({ props: inProps, name: 'MuiInput' });

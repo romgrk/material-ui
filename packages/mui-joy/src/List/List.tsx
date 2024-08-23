@@ -170,7 +170,7 @@ const ListRoot = styled(StyledList, {
   name: 'JoyList',
   slot: 'Root',
   overridesResolver: (props, styles) => styles.root,
-})({});
+})();
 /**
  *
  * Demos:
