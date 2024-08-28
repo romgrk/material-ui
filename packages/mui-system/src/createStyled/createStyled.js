@@ -161,6 +161,9 @@ export default function createStyled(input = {}) {
         };
       }
       if (isPlainObject(style)) {
+        if (isObjectEmpty(style)) {
+          return null;
+        }
         const serialized = preprocessStyles(style);
         if (!serialized.variants) {
           return serialized.style;

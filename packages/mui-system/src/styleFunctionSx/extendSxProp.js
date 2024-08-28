@@ -1,28 +1,25 @@
 import { isPlainObject } from '@mui/utils/deepmerge';
 import defaultSxConfig from './defaultSxConfig';
 
-const splitProps = (props) => {
-  const result = {
-    systemProps: {},
-    otherProps: {},
-  };
-
+export default function extendSxProp(props) {
   const config = props?.theme?.unstable_sxConfig ?? defaultSxConfig;
 
-  Object.keys(props).forEach((prop) => {
-    if (config[prop]) {
-      result.systemProps[prop] = props[prop];
-    } else {
-      result.otherProps[prop] = props[prop];
+  const inSx = props.sx;
+  const otherProps = {};
+  let systemProps = undefined;
+
+  // eslint-disable-next-line
+  for (const key in props) {
+    if (key === 'sx') {
+      continue;
     }
-  });
-
-  return result;
-};
-
-export default function extendSxProp(props) {
-  const { sx: inSx, ...other } = props;
-  const { systemProps, otherProps } = splitProps(other);
+    if (config[key]) {
+      systemProps ??= {};
+      systemProps[key] = props[key];
+    } else {
+      otherProps[key] = props[key];
+    }
+  }
 
   let finalSx;
   if (Array.isArray(inSx)) {
@@ -35,12 +32,13 @@ export default function extendSxProp(props) {
       }
       return { ...systemProps, ...result };
     };
-  } else {
+  } else if (systemProps || inSx) {
     finalSx = { ...systemProps, ...inSx };
   }
 
-  return {
-    ...otherProps,
-    sx: finalSx,
-  };
+  if (finalSx) {
+    otherProps.sx = finalSx;
+  }
+
+  return otherProps;
 }
