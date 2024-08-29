@@ -63,15 +63,22 @@ function processStyle(props, style) {
   return resolvedStyle;
 }
 
+/*
+ * The current variants API requires us to pass a merged state object in the form:
+ *   { ...props, ...props.ownerState, ownerState: props.ownerState }
+ * To avoid rebuilding the object on each iteration, we use a proxy.
+ */
+let proxyProps = undefined
+const proxy = buildProcessStyleProxy()
+
 function processStyleVariants(props, variants, results = []) {
-  let mergedState; // We might not need it, initialized lazily
+  proxyProps = props
 
   variantLoop: for (let i = 0; i < variants.length; i += 1) {
     const variant = variants[i];
 
     if (typeof variant.props === 'function') {
-      mergedState ??= { ...props, ...props.ownerState, ownerState: props.ownerState };
-      if (!variant.props(mergedState)) {
+      if (!variant.props(proxy)) {
         continue;
       }
     } else {
@@ -83,8 +90,7 @@ function processStyleVariants(props, variants, results = []) {
     }
 
     if (typeof variant.style === 'function') {
-      mergedState ??= { ...props, ...props.ownerState, ownerState: props.ownerState };
-      results.push(variant.style(mergedState));
+      results.push(variant.style(proxy));
     } else {
       results.push(variant.style);
     }
@@ -261,6 +267,23 @@ export default function createStyled(input = {}) {
   };
 
   return styled;
+}
+
+function buildProcessStyleProxy() {
+  return new Proxy({}, {
+    get: (_, key) => {
+      if (key === 'ownerState') {
+        return proxyProps.ownerState
+      }
+      if (key in proxyProps.ownerState) {
+        return proxyProps.ownerState[key]
+      }
+      if (key in proxyProps) {
+        return proxyProps[key]
+      }
+      return undefined
+    },
+  })
 }
 
 function generateDisplayName(componentName, componentSlot, tag) {
