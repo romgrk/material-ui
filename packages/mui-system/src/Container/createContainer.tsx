@@ -6,6 +6,7 @@ import { OverridableComponent } from '@mui/types';
 import generateUtilityClass from '@mui/utils/generateUtilityClass';
 import composeClasses from '@mui/utils/composeClasses';
 import capitalize from '@mui/utils/capitalize';
+import memoTheme from '../memoTheme';
 import { ContainerProps, ContainerTypeMap } from './ContainerProps';
 import useThemePropsSystem from '../useThemeProps';
 import systemStyled from '../styled';
@@ -73,45 +74,56 @@ export default function createContainer<Theme extends RequiredThemeStructure = D
   } = options;
 
   const ContainerRoot = createStyledComponent(
-    ({ theme, ownerState }: StyleFnProps<Theme>) =>
+    memoTheme<DefaultTheme>(({ theme }) =>
       ({
         width: '100%',
         marginLeft: 'auto',
         boxSizing: 'border-box',
         marginRight: 'auto',
-        ...(!ownerState.disableGutters && {
-          paddingLeft: theme.spacing(2),
-          paddingRight: theme.spacing(2),
-          // @ts-ignore module augmentation fails if custom breakpoints are used
-          [theme.breakpoints.up('sm')]: {
-            paddingLeft: theme.spacing(3),
-            paddingRight: theme.spacing(3),
+        variants: [
+          {
+            props: { disableGutters: false },
+            style: {
+              paddingLeft: theme.spacing(2),
+              paddingRight: theme.spacing(2),
+              // @ts-ignore module augmentation fails if custom breakpoints are used
+              [theme.breakpoints.up('sm')]: {
+                paddingLeft: theme.spacing(3),
+                paddingRight: theme.spacing(3),
+              },
+            }
           },
-        }),
-      }) as Interpolation<StyleFnProps<Theme>>,
-    ({ theme, ownerState }: StyleFnProps<Theme>) =>
-      ownerState.fixed &&
-      Object.keys(theme.breakpoints.values).reduce((acc, breakpointValueKey) => {
-        const breakpoint = breakpointValueKey;
-        const value = theme.breakpoints.values[breakpoint as Breakpoint];
+          {
+            props: { fixed: true },
+            style: 
+              Object.keys(theme.breakpoints.values).reduce((acc, breakpointValueKey) => {
+                const breakpoint = breakpointValueKey;
+                const value = theme.breakpoints.values[breakpoint as Breakpoint];
 
-        if (value !== 0) {
-          // @ts-ignore
-          acc[theme.breakpoints.up(breakpoint)] = {
-            maxWidth: `${value}${theme.breakpoints.unit}`,
-          };
-        }
-        return acc;
-      }, {}),
+                if (value !== 0) {
+                  // @ts-ignore
+                  acc[theme.breakpoints.up(breakpoint)] = {
+                    maxWidth: `${value}${theme.breakpoints.unit}`,
+                  };
+                }
+                return acc;
+              }, {}),
+          },
+          {
+            // @ts-ignore module augmentation fails if custom breakpoints are used
+            props: { maxWidth: 'xs' },
+            style: {
+              // @ts-ignore module augmentation fails if custom breakpoints are used
+              [theme.breakpoints.up('xs')]: {
+                // @ts-ignore module augmentation fails if custom breakpoints are used
+                maxWidth: Math.max(theme.breakpoints.values.xs, 444),
+              },
+            },
+          },
+        ]
+      })) as any
+    ,
     ({ theme, ownerState }: StyleFnProps<Theme>) => ({
-      // @ts-ignore module augmentation fails if custom breakpoints are used
-      ...(ownerState.maxWidth === 'xs' && {
-        // @ts-ignore module augmentation fails if custom breakpoints are used
-        [theme.breakpoints.up('xs')]: {
-          // @ts-ignore module augmentation fails if custom breakpoints are used
-          maxWidth: Math.max(theme.breakpoints.values.xs, 444),
-        },
-      }),
       ...(ownerState.maxWidth &&
         // @ts-ignore module augmentation fails if custom breakpoints are used
         ownerState.maxWidth !== 'xs' && {
